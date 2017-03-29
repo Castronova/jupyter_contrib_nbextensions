@@ -57,8 +57,7 @@ function deleteDirectory(path, results, level) {
 
 function recursiveDelete (e){
 
-    var message = 'Are you sure you want to permanently delete the files/folders selected?\n  This will include all files and folders wit
-hin non-empty directories.';
+    var message = 'Are you sure you want to permanently delete the files/folders selected?\nThis will include all files and folders within non-empty directories.';
 
     dialog.modal({
        title : "Delete",
