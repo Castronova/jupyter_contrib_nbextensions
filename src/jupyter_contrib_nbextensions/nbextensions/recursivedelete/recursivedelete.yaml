@@ -1,0 +1,6 @@
+Type: IPython Notebook Extension
+Name: RecursiveDelete
+Description: Extends the native Jupyter delete functionality to operate on non-empty directories
+Main: main.js
+Compatibility: 4.x
+Section: tree
