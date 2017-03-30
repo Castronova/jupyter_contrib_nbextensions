@@ -17,15 +17,37 @@ define([
         load_ipython_extension: load_extension
     };
 
+function deleteMessage(failed){
+   if (failed > 0){
+     var message = 'I was unable to completely remove the selected directory tree, ('+failed+') folders contained hidden files.  Jupyter notebooks do not currently support operations with hidden files/directories.  Use the bash terminal to complete the removal of this directory.';
+     dialog.modal({
+       title : "Delete Unsuccessful",
+       body : message,
+       buttons : {
+         Close : {class: "btn-warning",}
+      }
+     });
+   }
+}
+
 function runSerial(paths) {
+  itemsProcessed = 0;
+  failed = 0;
   var result = Promise.resolve();
   paths.forEach(path => {
     result = result.then(() => Jupyter.notebook_list.contents.delete(path).then(
      function() {
        Jupyter.notebook_list.notebook_deleted(path)
-       console.log('deleted: '+path);
+       console.log('deleted: ' + path);
+     }).catch(function(e){
+         failed++;
+     }).then(function(){
+        itemsProcessed++;
+        if(itemsProcessed === paths.length){
+          deleteMessage(failed);
+        }
      }));
-  });
+  })
   return result;
 }
 
@@ -45,7 +67,6 @@ function deleteDirectory(path, results, level) {
       }
     }
     if(level === 0) {
-     console.log(f);
      runSerial(f.reverse());
     }
   });
