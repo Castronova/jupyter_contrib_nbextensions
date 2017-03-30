@@ -2,13 +2,9 @@ define([
     'base/js/namespace',
     'jquery',
     'require',
-    'base/js/events',
-    'base/js/utils',
     'base/js/dialog',
-    'services/config',
-    'tree/js/sessionlist',
     'tree/js/notebooklist',
-], function (Jupyter, $, require, events, utils, dialog, configmod, sessionlist, notebooklist)  {
+], function (Jupyter, $, require, dialog, notebooklist)  {
 
     var load_extension = function() {
         var btn = $(".delete-button");
