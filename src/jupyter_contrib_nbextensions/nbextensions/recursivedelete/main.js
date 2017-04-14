@@ -62,7 +62,7 @@ function deleteDirectory(path, results, level) {
         level++;
         deleteDirectory(res.content[i].path, f, level);
       }
-      if (res.content[i].path === 'notebook') {
+      if (res.content[i].type === 'notebook') {
           Jupyter.notebook_list.shutdown_notebook(res.content[i].path);
       }
     }
@@ -86,11 +86,18 @@ function recursiveDelete (e){
 
                 var selected = Jupyter.notebook_list.selected;
                 selected.forEach(function(item) {
+		if (item.type === 'file'){
+		  if (file.type === "notebook") {
+		      Jupyter.notebook_list.shutdown_notebook(file.path);
+		  }
+		  runSerial([file.path]);
+		} else {
                     Jupyter.notebook_list.contents.list_contents(item.path).then(function(res) {
                         deleteDirectory(res.path);
                     }).catch(function(e) {
-                        alert(e);
+                        console.log(e);
                       });
+		}
                 });
                 },
            },
