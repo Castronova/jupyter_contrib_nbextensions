@@ -69,13 +69,11 @@ function recursiveDelete (e){
 
                 var selected = Jupyter.notebook_list.selected;
                 selected.forEach(function(item) {
-                    if (item.type == 'directory'){
                     Jupyter.notebook_list.contents.list_contents(item.path).then(function(res) {
                         deleteDirectory(res.path);
                     }).catch(function(e) {
                         alert(e);
                       });
-                }
                 });
                 },
            },
