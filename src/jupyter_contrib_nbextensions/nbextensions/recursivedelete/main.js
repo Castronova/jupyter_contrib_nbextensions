@@ -86,17 +86,17 @@ function recursiveDelete (e){
 
                 var selected = Jupyter.notebook_list.selected;
                 selected.forEach(function(item) {
-		if (item.type === 'file'){
-		  if (file.type === "notebook") {
-		      Jupyter.notebook_list.shutdown_notebook(file.path);
-		  }
-		  runSerial([file.path]);
-		} else {
+		if (item.type === 'notebook'){
+		      Jupyter.notebook_list.shutdown_notebook(item.path);
+		  runSerial([item.path]);
+		} else if (item.type === 'directory') {
                     Jupyter.notebook_list.contents.list_contents(item.path).then(function(res) {
                         deleteDirectory(res.path);
                     }).catch(function(e) {
                         console.log(e);
                       });
+		} else {
+		  runSerial([item.path]);
 		}
                 });
                 },
